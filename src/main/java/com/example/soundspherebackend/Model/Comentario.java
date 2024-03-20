@@ -2,7 +2,10 @@ package com.example.soundspherebackend.Model;
 
 import lombok.Data;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "comentario")
@@ -10,7 +13,7 @@ import java.util.Date;
 public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String texto;
@@ -25,5 +28,9 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "id_cancion", nullable = false)
     private Cancion cancion;
+
+    @OneToMany(mappedBy = "comentario", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Likes> likes;
 }
 

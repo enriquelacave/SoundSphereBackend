@@ -2,6 +2,10 @@ package com.example.soundspherebackend.Model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "cancion")
@@ -9,7 +13,7 @@ import lombok.Data;
 public class Cancion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String titulo;
@@ -22,4 +26,31 @@ public class Cancion {
     @ManyToOne
     @JoinColumn(name = "id_album", nullable = false)
     private Album album;
+
+    @ManyToMany
+    @JoinTable(
+            name = "cancion_artista",
+            joinColumns = @JoinColumn(name = "id_cancion"),
+            inverseJoinColumns = @JoinColumn(name = "id_artista")
+    )
+    private Set<Artista> artistas;
+
+    @ManyToMany(mappedBy = "canciones")
+    private Set<Genero> generos;
+
+    @ManyToMany
+    @JoinTable(
+            name = ("lista_cancion"),
+            joinColumns = @JoinColumn(name = "id_cancion"),
+            inverseJoinColumns = @JoinColumn(name = "id_lista")
+    )
+    private List<Lista> listas;
+
+    @OneToMany(mappedBy = "cancion", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Reproduccion> reproducciones;
+
+    @OneToMany(mappedBy = "cancion", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Comentario> comentarios;
 }

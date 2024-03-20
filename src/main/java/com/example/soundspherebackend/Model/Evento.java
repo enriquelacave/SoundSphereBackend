@@ -3,6 +3,7 @@ package com.example.soundspherebackend.Model;
 import lombok.Data;
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "evento")
@@ -10,7 +11,7 @@ import java.util.Date;
 public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String titulo;
@@ -20,4 +21,7 @@ public class Evento {
 
     @Column(nullable = false)
     private Date fecha;
+
+    @ManyToMany(mappedBy = "eventos")
+    private Set<Artista> artistas;
 }

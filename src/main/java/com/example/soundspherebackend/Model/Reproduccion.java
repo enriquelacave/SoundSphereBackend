@@ -10,7 +10,7 @@ import java.util.Date;
 public class Reproduccion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "fecha_publicacion", nullable = false)
     private Date fechaPublicacion;

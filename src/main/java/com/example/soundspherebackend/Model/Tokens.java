@@ -20,7 +20,7 @@ public class Tokens {
     private Date fechaExpiracion;
 
     @ManyToOne
-    @JoinColumn(name = "id_login", nullable = false)
+    @JoinColumn(name = "id_login")
     private Login login;
 }
 
