@@ -21,8 +21,8 @@ public class Lista {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @ManyToMany(mappedBy = "listasSeguidas")
-    private Set<Usuario> seguidores;
+    @OneToMany(mappedBy = "lista")
+    private List<UsuarioLista> seguidores;
 
     @ManyToMany(mappedBy = "listas")
     private List<Cancion> canciones;

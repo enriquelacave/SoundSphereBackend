@@ -30,5 +30,5 @@ public class Genero {
             joinColumns = @JoinColumn(name = "id_genero"),
             inverseJoinColumns = @JoinColumn(name = "id_cancion")
     )
-    private List<Artista> canciones;
+    private List<Cancion> canciones;
 }

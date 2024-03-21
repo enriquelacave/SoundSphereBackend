@@ -45,13 +45,8 @@ public class Usuario {
     @ManyToMany(mappedBy = "seguidos")
     private Set<Usuario> seguidores;
 
-    @ManyToMany
-    @JoinTable(
-            name = "usuario_lista",
-            joinColumns = @JoinColumn(name = "id_seguidor"),
-            inverseJoinColumns = @JoinColumn(name = "id_lista")
-    )
-    private Set<Usuario> listasSeguidas;
+    @OneToMany(mappedBy = "seguidor")
+    private List<UsuarioLista> listasSeguidas;
 
     @OneToMany(mappedBy = "emisor", fetch = FetchType.LAZY)
     @Cascade (org.hibernate.annotations.CascadeType.ALL)

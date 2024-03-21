@@ -18,5 +18,6 @@ public class UsuarioLista {
     @ManyToOne
     @JoinColumn(name = "id_lista", nullable = false)
     private Lista lista;
+
 }
 

@@ -14,11 +14,6 @@ public class AlbumService {
     @Autowired
     private AlbumRepository albumRepository;
 
-    /**
-     * Lista todos los álbumes
-     *
-     * @return
-     */
     public List<Album> listarAlbumes(){
         return albumRepository.findAll();
     }
@@ -31,8 +26,8 @@ public class AlbumService {
     public String crearAlbum(AlbumDTO albumDTO){
         Album nuevoAlbum = new Album();
             nuevoAlbum.setTitulo(albumDTO.getTitulo());
-            nuevoAlbum.setUrlImagen(albumDTO.getUrl_imagen());
-            nuevoAlbum.setFechaPublicacion(albumDTO.getFecha_publicacion());
+            nuevoAlbum.setUrlImagen(albumDTO.getUrlImagen());
+            nuevoAlbum.setFechaPublicacion(albumDTO.getFechaPublicacion());
             albumRepository.save(nuevoAlbum);
             return "Producto creado correctamente";
     }
