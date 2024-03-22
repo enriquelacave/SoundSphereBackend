@@ -18,6 +18,4 @@ public class AlbumDTO {
 
     private LocalDate fechaPublicacion;
 
-    private Set<Integer> idArtistas; // Lista de IDs de los artistas asociados al álbum
-
 }
