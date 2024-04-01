@@ -3,6 +3,7 @@ package com.example.soundspherebackend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -38,5 +39,10 @@ public class Artista {
 
     @ManyToMany(mappedBy = "artistas")
     private Set<Genero> generos;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, biografia, urlImagen);
+    }
 }
 

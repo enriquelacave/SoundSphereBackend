@@ -50,7 +50,5 @@ public class Cancion {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Reproduccion> reproducciones;
 
-    @OneToMany(mappedBy = "cancion", fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Comentario> comentarios;
+
 }

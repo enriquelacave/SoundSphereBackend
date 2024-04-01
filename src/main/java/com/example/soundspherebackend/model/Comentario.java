@@ -26,8 +26,8 @@ public class Comentario {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_cancion", nullable = false)
-    private Cancion cancion;
+    @JoinColumn(name = "id_album", nullable = false)
+    private Album album;
 
     @OneToMany(mappedBy = "comentario", fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)

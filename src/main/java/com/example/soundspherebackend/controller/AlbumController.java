@@ -3,6 +3,7 @@ package com.example.soundspherebackend.controller;
 
 import com.example.soundspherebackend.dto.AlbumDTO;
 import com.example.soundspherebackend.dto.CreateAlbumRequestDTO;
+import com.example.soundspherebackend.model.Album;
 import com.example.soundspherebackend.service.AlbumService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,11 @@ public class AlbumController {
     public ResponseEntity<Void> deleteAlbum(@PathVariable Integer albumId) {
         albumService.deleteAlbum(albumId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/latest")
+    public ResponseEntity<List<AlbumDTO>> getLast20Albums() {
+        List<AlbumDTO> albums = albumService.getLast20Albums();
+        return ResponseEntity.ok(albums);
     }
 }

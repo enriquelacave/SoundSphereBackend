@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -37,5 +38,13 @@ public class Album {
     )
     private Set<Artista> artistas;
 
+    @OneToMany(mappedBy = "album", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Comentario> comentarios;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, titulo, urlImagen, fechaPublicacion);
+    }
 }
 

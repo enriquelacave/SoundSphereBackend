@@ -1,6 +1,7 @@
 package com.example.soundspherebackend.service;
 
 import com.example.soundspherebackend.dto.AlbumDTO;
+import com.example.soundspherebackend.dto.ArtistaDTO;
 import com.example.soundspherebackend.dto.CreateAlbumRequestDTO;
 import com.example.soundspherebackend.model.Album;
 import com.example.soundspherebackend.model.Artista;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -114,5 +116,27 @@ public class AlbumService {
         albumDTO.setUrlImagen(album.getUrlImagen());
         albumDTO.setFechaPublicacion(album.getFechaPublicacion());
         return albumDTO;
+    }
+
+    public List<AlbumDTO> getLast20Albums() {
+        List<Object[]> results = albumRepository.findLast20Albums();
+        return results.stream()
+                .map(this::mapToAlbumDTO)
+                .collect(Collectors.toList());
+    }
+
+    private AlbumDTO mapToAlbumDTO(Object[] row) {
+        AlbumDTO album = new AlbumDTO();
+        album.setId((Integer) row[0]);
+        album.setTitulo((String) row[1]);
+        album.setUrlImagen((String) row[2]);
+        album.setFechaPublicacion(((java.sql.Date) row[3]).toLocalDate());
+
+        ArtistaDTO artista = new ArtistaDTO();
+        artista.setId((Integer) row[4]);
+        artista.setNombre((String) row[5]);
+
+        album.setArtistas(Collections.singletonList(artista));
+        return album;
     }
 }
