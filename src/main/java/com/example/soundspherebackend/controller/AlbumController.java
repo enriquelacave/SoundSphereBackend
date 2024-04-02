@@ -26,6 +26,7 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
+
     @GetMapping
     public ResponseEntity<List<AlbumDTO>> getAllAlbums() {
         List<AlbumDTO> albums = albumService.getAllAlbums();

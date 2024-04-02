@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,24 +116,30 @@ public class AlbumService {
     }
 
     public List<AlbumDTO> getLast20Albums() {
-        List<Object[]> results = albumRepository.findLast20Albums();
-        return results.stream()
-                .map(this::mapToAlbumDTO)
-                .collect(Collectors.toList());
-    }
+        List<Object[]> results = albumRepository.findLast20AlbumsWithArtists();
+        Map<Integer, AlbumDTO> albumMap = new HashMap<>();
 
-    private AlbumDTO mapToAlbumDTO(Object[] row) {
-        AlbumDTO album = new AlbumDTO();
-        album.setId((Integer) row[0]);
-        album.setTitulo((String) row[1]);
-        album.setUrlImagen((String) row[2]);
-        album.setFechaPublicacion(((java.sql.Date) row[3]).toLocalDate());
+        for (Object[] row : results) {
+            Integer albumId = (Integer) row[0];
+            AlbumDTO album = albumMap.getOrDefault(albumId, new AlbumDTO());
 
-        ArtistaDTO artista = new ArtistaDTO();
-        artista.setId((Integer) row[4]);
-        artista.setNombre((String) row[5]);
+            if (album.getId() == null) {
+                album.setId(albumId);
+                album.setTitulo((String) row[1]);
+                album.setUrlImagen((String) row[2]);
+                album.setFechaPublicacion(((java.sql.Date) row[3]).toLocalDate());
+                album.setArtistas(new ArrayList<>());
+            }
 
-        album.setArtistas(Collections.singletonList(artista));
-        return album;
+            ArtistaDTO artista = new ArtistaDTO();
+            artista.setId((Integer) row[4]);
+            artista.setNombre((String) row[5]);
+
+            album.getArtistas().add(artista);
+            albumMap.put(albumId, album);
+        }
+        List<AlbumDTO> albums = new ArrayList<>(albumMap.values());
+        Collections.reverse(albums);
+        return albums;
     }
 }

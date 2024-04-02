@@ -1,19 +1,25 @@
 package com.example.soundspherebackend.repository;
 
+import com.example.soundspherebackend.dto.ArtistaDTO;
 import com.example.soundspherebackend.model.Album;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface AlbumRepository extends JpaRepository<Album, Integer> {
 
-    @Query(value = "SELECT a.id, a.titulo, a.url_imagen, a.fecha_publicacion, a2.id, a2.nombre AS nombre_artista " +
+
+    @Query(value = "SELECT a.id AS album_id, a.titulo AS album_titulo, a.url_imagen AS album_url_imagen, " +
+            "a.fecha_publicacion AS album_fecha_publicacion, " +
+            "ar.id AS artista_id, ar.nombre AS artista_nombre " +
             "FROM album a " +
-            "JOIN album_artista aa ON aa.id_album = a.id " +
-            "JOIN artista a2 ON aa.id_artista = a2.id " +
+            "INNER JOIN album_artista aa ON a.id = aa.id_album " +
+            "INNER JOIN artista ar ON aa.id_artista = ar.id " +
             "ORDER BY a.fecha_publicacion DESC " +
             "LIMIT 20", nativeQuery = true)
-    List<Object[]> findLast20Albums();
+    List<Object[]> findLast20AlbumsWithArtists();
+
 
 }
