@@ -8,15 +8,13 @@ import com.example.soundspherebackend.service.LoginService;
 import com.example.soundspherebackend.service.TokensService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -37,12 +35,11 @@ public class AuthController {
 
         if(login.getTokens() == null) {
             tokenUsuario = jwtService.generateToken(login);
-            Tokens token = Tokens
-                    .builder()
-                    .login(login)
-                    .tokenUsuario(tokenUsuario)
-                    .fechaExpiracion(LocalDateTime.now().plusDays(3))
-                    .build();
+            Tokens token = new Tokens();
+            token.setLogin(login);
+            token.setTokenUsuario(tokenUsuario);
+            token.setFechaExpiracion(LocalDateTime.now().plusDays(3));
+
             tokensService.save(token);
 
         }else if(login.getTokens().getFechaExpiracion().isBefore(LocalDateTime.now())){
@@ -58,6 +55,8 @@ public class AuthController {
         return AuthDTO
                 .builder()
                 .token(tokenUsuario)
+                .rol(login.getRol().name())
+                .idLogin(login.getId())
                 .info("Usuario logeado correctamente")
                 .build();
     }

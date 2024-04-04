@@ -8,5 +8,7 @@ import lombok.Data;
 public class AuthDTO {
 
     private String token;
+    private String rol;
+    private Integer idLogin;
     private String info;
 }
