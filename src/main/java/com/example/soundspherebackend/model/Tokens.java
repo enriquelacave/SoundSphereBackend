@@ -1,13 +1,18 @@
 package com.example.soundspherebackend.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
 @Entity
 @Table(name = "tokens")
 @Data
+@Builder
+@EqualsAndHashCode(exclude = {"login"})
+@RequiredArgsConstructor
 public class Tokens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,10 +22,15 @@ public class Tokens {
     private String tokenUsuario;
 
     @Column(name = "fecha_expiracion", nullable = false)
-    private Date fechaExpiracion;
+    private LocalDateTime fechaExpiracion;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_login")
     private Login login;
-}
 
+    public Tokens(Integer id, String tokenUsuario, LocalDateTime fechaExpiracion, Login login) {
+        this.id = id;
+        this.tokenUsuario = tokenUsuario;
+        this.fechaExpiracion = fechaExpiracion;
+    }
+}
