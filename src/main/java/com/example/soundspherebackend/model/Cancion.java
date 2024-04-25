@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,6 +50,7 @@ public class Cancion {
     @OneToMany(mappedBy = "cancion", fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Reproduccion> reproducciones;
+
 
 
 }

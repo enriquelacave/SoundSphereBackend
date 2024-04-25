@@ -6,6 +6,7 @@ import com.example.soundspherebackend.dto.CreateAlbumRequestDTO;
 import com.example.soundspherebackend.model.Album;
 import com.example.soundspherebackend.model.Artista;
 import com.example.soundspherebackend.model.AlbumArtista;
+import com.example.soundspherebackend.model.Cancion;
 import com.example.soundspherebackend.repository.AlbumArtistaRepository;
 import com.example.soundspherebackend.repository.AlbumRepository;
 import com.example.soundspherebackend.repository.ArtistaRepository;
@@ -142,4 +143,23 @@ public class AlbumService {
         Collections.reverse(albums);
         return albums;
     }
+
+    public List<ArtistaDTO> getArtistsByAlbum(Integer idAlbum){
+        List<ArtistaDTO> artistas = new ArrayList<>();
+        Optional<Album> albumOptional = albumRepository.findById(idAlbum);
+        if (albumOptional.isPresent()) {
+            Album album = albumOptional.get();
+            Set<Artista> artistasDTO = album.getArtistas();
+            for (Artista artista : artistasDTO) {
+                ArtistaDTO artistaDTO = new ArtistaDTO();
+                artistaDTO.setId(artista.getId());
+                artistaDTO.setNombre(artista.getNombre());
+                artistaDTO.setUrlImagen(artista.getUrlImagen());
+                artistas.add(artistaDTO);
+            }
+        }
+
+        return artistas;
+    }
+
 }

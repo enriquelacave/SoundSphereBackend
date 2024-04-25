@@ -2,10 +2,16 @@ package com.example.soundspherebackend.service;
 
 import com.example.soundspherebackend.dto.ArtistaDTO;
 import com.example.soundspherebackend.model.Artista;
+import com.example.soundspherebackend.model.Login;
+import com.example.soundspherebackend.model.Usuario;
 import com.example.soundspherebackend.repository.ArtistaRepository;
+import com.example.soundspherebackend.repository.LoginRepository;
+import com.example.soundspherebackend.repository.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +25,9 @@ public class ArtistaService {
     public ArtistaService(ArtistaRepository artistaRepository) {
         this.artistaRepository = artistaRepository;
     }
+
+    @Autowired
+    public LoginRepository loginRepository;
 
     public List<ArtistaDTO> getAllArtistas() {
         List<Artista> artistas = artistaRepository.findAll();
@@ -62,4 +71,28 @@ public class ArtistaService {
         BeanUtils.copyProperties(artistaDTO, artista);
         return artista;
     }
+
+    public List<ArtistaDTO> artistasFav(Integer idLogin) {
+        List<ArtistaDTO> artistas = new ArrayList<>();
+        for (Integer idartista : artistaRepository.artistasfavs(idLogin)) {
+            Optional<Artista> artistaOptional = artistaRepository.findById(idartista);
+            if (artistaOptional.isPresent()) {
+                Artista artista = artistaOptional.get();
+                ArtistaDTO artistaDTO = new ArtistaDTO();
+                artistaDTO.setId(artista.getId());
+                artistaDTO.setNombre(artista.getNombre());
+                artistaDTO.setUrlImagen(artista.getUrlImagen());
+                artistas.add(artistaDTO);
+            }
+        }
+    return artistas;
+    }
 }
+
+//        List<Artista> artistas = new ArrayList<>();
+//        for (Integer idArtista : artistaRepository.artistasfavs(idUsuario)) {
+//            Artista artista = artistaRepository.findById(idArtista).orElse(null);
+//            if (artista != null) {
+//                artistas.add(artista);
+//            }
+//        }

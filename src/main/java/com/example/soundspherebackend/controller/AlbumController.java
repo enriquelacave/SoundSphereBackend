@@ -2,6 +2,7 @@ package com.example.soundspherebackend.controller;
 
 
 import com.example.soundspherebackend.dto.AlbumDTO;
+import com.example.soundspherebackend.dto.ArtistaDTO;
 import com.example.soundspherebackend.dto.CreateAlbumRequestDTO;
 import com.example.soundspherebackend.model.Album;
 import com.example.soundspherebackend.service.AlbumService;
@@ -74,6 +75,12 @@ public class AlbumController {
     @GetMapping("/latest")
     public ResponseEntity<List<AlbumDTO>> getLast20Albums() {
         List<AlbumDTO> albums = albumService.getLast20Albums();
+        return ResponseEntity.ok(albums);
+    }
+
+    @GetMapping("/getartists/{albumId}")
+    public ResponseEntity<List<ArtistaDTO>> getArtists(@PathVariable Integer albumId) {
+        List<ArtistaDTO> albums = albumService.getArtistsByAlbum(albumId);
         return ResponseEntity.ok(albums);
     }
 }

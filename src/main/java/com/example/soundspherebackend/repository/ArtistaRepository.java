@@ -10,4 +10,18 @@ import java.util.List;
 
 public interface ArtistaRepository extends JpaRepository<Artista, Integer> {
 
+
+    @Query(value = "SELECT a.id " +
+            "FROM artista a " +
+            "JOIN cancion_artista ca ON ca.id_artista = a.id " +
+            "JOIN cancion c ON ca.id_cancion = c.id " +
+            "JOIN reproduccion r ON r.id_cancion = c.id " +
+            "JOIN usuario u ON r.id_usuario = u.id " +
+            "JOIN login l ON u.id_login = l.id " +
+            "WHERE l.id = :idUsuario " +
+            "GROUP BY a.id " +
+            "ORDER BY COUNT(r.id) DESC",
+            nativeQuery = true)
+    List<Integer> artistasfavs(@Param("idUsuario") Integer idUsuario);
+
 }
