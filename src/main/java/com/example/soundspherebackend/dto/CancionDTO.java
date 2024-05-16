@@ -14,4 +14,5 @@ public class CancionDTO {
     private Integer idAlbum; // ID del álbum al que pertenece la canción
     private List<ArtistaDTO> artistas; // Lista de IDs de los artistas asociados a la canción
     private List<Integer> idGeneros; // Lista de IDs de los géneros asociados a la canción
+    private String urlImagenAlbum;
 }

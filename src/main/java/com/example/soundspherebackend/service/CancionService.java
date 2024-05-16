@@ -52,7 +52,7 @@ public class CancionService {
     public List<CancionDTO> getSongsByIdAlbum(Integer idAlbum) {
         List<CancionDTO> canciones = new ArrayList<>();
         List<Cancion> cancionesEntidad = cancionRepository.findByAlbumId(idAlbum);
-
+        Optional<Album> albumOptional = albumRepository.findById(idAlbum);
         for (Cancion cancion : cancionesEntidad) {
             CancionDTO cancionDTO = new CancionDTO();
             cancionDTO.setId(cancion.getId());
@@ -60,6 +60,10 @@ public class CancionService {
             cancionDTO.setDuracion(cancion.getDuracion());
             cancionDTO.setUrl(cancion.getUrl());
             cancionDTO.setArtistas(getArtistBySong(cancion.getId()));
+            if (albumOptional.isPresent()) {
+                Album album = albumOptional.get();
+                cancionDTO.setIdAlbum(album.getId());
+                cancionDTO.setUrlImagenAlbum(album.getUrlImagen());}
 
             canciones.add(cancionDTO);
         }
