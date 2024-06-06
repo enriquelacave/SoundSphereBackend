@@ -3,6 +3,8 @@ package com.example.soundspherebackend.security.auth;
 import com.example.soundspherebackend.dto.LoginDTO;
 import com.example.soundspherebackend.model.Login;
 import com.example.soundspherebackend.model.Tokens;
+import com.example.soundspherebackend.model.Usuario;
+import com.example.soundspherebackend.repository.UsuarioRepository;
 import com.example.soundspherebackend.security.service.JwtService;
 import com.example.soundspherebackend.service.LoginService;
 import com.example.soundspherebackend.service.TokensService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,6 +29,9 @@ public class AuthController {
 
     @Autowired
     private TokensService tokensService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
     public AuthDTO login(@RequestBody LoginDTO loginDTO) {
@@ -52,11 +58,15 @@ public class AuthController {
             tokenUsuario = login.getTokens().getTokenUsuario();
         }
 
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByLogin(login);
+        Integer usuarioId = usuarioOptional.map(Usuario::getId).orElse(null);
+
         return AuthDTO
                 .builder()
                 .token(tokenUsuario)
                 .rol(login.getRol().name())
                 .idLogin(login.getId())
+                .idUser(usuarioId)
                 .info("Usuario logeado correctamente")
                 .build();
     }
@@ -69,6 +79,7 @@ public class AuthController {
                 .builder()
                 .token(token)
                 .info("Login creado correctamente")
+                .idLogin(loginNuevo.getId())
                 .build();
     }
 

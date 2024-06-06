@@ -11,4 +11,5 @@ public class AuthDTO {
     private String rol;
     private Integer idLogin;
     private String info;
+    private Integer idUser;
 }
