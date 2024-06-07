@@ -30,6 +30,9 @@ public class Usuario {
     @Enumerated(EnumType.ORDINAL)
     private Sexo sexo;
 
+    @Column(nullable = false)
+    private String urlImagen;
+
     @OneToOne
     @JoinColumn(name = "id_login")
     private Login login;

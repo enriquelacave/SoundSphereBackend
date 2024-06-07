@@ -2,6 +2,7 @@ package com.example.soundspherebackend.controller;
 
 import com.example.soundspherebackend.dto.AlbumDTO;
 import com.example.soundspherebackend.dto.CreateAlbumRequestDTO;
+import com.example.soundspherebackend.dto.ListaDTO;
 import com.example.soundspherebackend.dto.UsuarioDTO;
 import com.example.soundspherebackend.model.Login;
 import com.example.soundspherebackend.model.Usuario;
@@ -26,6 +27,32 @@ public class UsuarioController {
 
     @Autowired
     private LoginRepository loginRepository;
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UsuarioDTO> getUserData(@PathVariable Integer userId) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(userId);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+            // Asumiendo que UsuarioDTO tiene los mismos campos que Usuario
+            usuarioDTO.setId(usuario.getId());
+            usuarioDTO.setNombre(usuario.getNombre());
+            usuarioDTO.setApellidos(usuario.getApellidos());
+            usuarioDTO.setFechaNacimiento(usuario.getFechaNacimiento());
+            usuarioDTO.setSexo(usuario.getSexo());
+            usuarioDTO.setLoginId(usuario.getLogin().getId());
+            usuarioDTO.setUrlImagen(usuario.getUrlImagen());
+
+
+            return ResponseEntity.ok(usuarioDTO);
+        } else {
+            // Manejo del caso en el que el usuario no sea encontrado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<UsuarioDTO> createUser(@RequestBody UsuarioDTO usuarioDTO) throws ChangeSetPersister.NotFoundException {

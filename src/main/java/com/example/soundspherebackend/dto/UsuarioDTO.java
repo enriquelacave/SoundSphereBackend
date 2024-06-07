@@ -15,6 +15,7 @@ public class UsuarioDTO {
     private Date fechaNacimiento;
     private Sexo sexo;
     private Integer loginId;
+    private String urlImagen;
     private Set<Integer> seguidosIds;
     private Set<Integer> seguidoresIds;
     private Set<Integer> listasSeguidasIds;

@@ -1,9 +1,7 @@
 package com.example.soundspherebackend.controller;
 
-import com.example.soundspherebackend.dto.AlbumDTO;
 import com.example.soundspherebackend.dto.ListaCancionDTO;
 import com.example.soundspherebackend.dto.ListaDTO;
-import com.example.soundspherebackend.dto.UsuarioDTO;
 import com.example.soundspherebackend.model.*;
 import com.example.soundspherebackend.repository.CancionRepository;
 import com.example.soundspherebackend.repository.ListaCancionRepository;
