@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -73,9 +75,17 @@ public class AlbumController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<AlbumDTO>> getLast20Albums() {
+    public List<AlbumDTO> getLast20Albums() {
         List<AlbumDTO> albums = albumService.getLast20Albums();
-        return ResponseEntity.ok(albums);
+
+        albums.sort(Comparator.comparing(AlbumDTO::getFechaPublicacion).reversed());
+
+        // Limita la lista a los últimos 20 álbumes
+        if (albums.size() > 20) {
+            albums = albums.subList(0, 20);
+        }
+
+        return albums;
     }
 
     @GetMapping("/getartists/{albumId}")

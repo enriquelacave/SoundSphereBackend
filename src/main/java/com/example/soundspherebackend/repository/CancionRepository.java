@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface CancionRepository extends JpaRepository<Cancion, Integer> {
     List<Cancion> findByAlbumId(Integer idAlbum);
+
+    List<Cancion> findByTituloContainingIgnoreCase(String query);
 }

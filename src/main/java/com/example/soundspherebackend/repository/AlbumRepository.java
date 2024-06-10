@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface AlbumRepository extends JpaRepository<Album, Integer> {
 
+    List<Album> findByTituloContainingIgnoreCase(String query);
 
     @Query(value = "SELECT a.id AS album_id, a.titulo AS album_titulo, a.url_imagen AS album_url_imagen, " +
             "a.fecha_publicacion AS album_fecha_publicacion, " +
@@ -18,7 +19,7 @@ public interface AlbumRepository extends JpaRepository<Album, Integer> {
             "INNER JOIN album_artista aa ON a.id = aa.id_album " +
             "INNER JOIN artista ar ON aa.id_artista = ar.id " +
             "ORDER BY a.fecha_publicacion DESC " +
-            "LIMIT 20", nativeQuery = true)
+            "LIMIT 8 ", nativeQuery = true)
     List<Object[]> findLast20AlbumsWithArtists();
 
 

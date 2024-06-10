@@ -63,6 +63,7 @@ public class UsuarioController {
         usuario.setApellidos(usuarioDTO.getApellidos());
         usuario.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
         usuario.setSexo(usuarioDTO.getSexo());
+        usuario.setUrlImagen(usuario.getUrlImagen());
 
         // Obtener el login asociado
         Login login = loginRepository.findById(usuarioDTO.getLoginId())
@@ -81,6 +82,7 @@ public class UsuarioController {
         responseDTO.setApellidos(usuarioNuevo.getApellidos());
         responseDTO.setFechaNacimiento(usuarioNuevo.getFechaNacimiento());
         responseDTO.setSexo(usuarioNuevo.getSexo());
+        responseDTO.setUrlImagen(usuarioNuevo.getUrlImagen());
 
         return ResponseEntity.ok(responseDTO);
     }
