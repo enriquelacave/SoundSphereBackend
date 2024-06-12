@@ -21,6 +21,9 @@ public class Lista {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
+    @Column(nullable = false)
+    private String urlImagen;
+
     @OneToMany(mappedBy = "lista")
     private List<UsuarioLista> seguidores;
 

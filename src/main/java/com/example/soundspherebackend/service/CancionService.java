@@ -70,7 +70,7 @@ public class CancionService {
         return canciones;
     }
 
-    private List<ArtistaDTO> getArtistBySong(Integer idCancion) {
+    public List<ArtistaDTO> getArtistBySong(Integer idCancion) {
         Optional<Cancion> cancionOptional = cancionRepository.findById(idCancion);
         List<ArtistaDTO> artistasDTO = new ArrayList<>();
 
