@@ -6,6 +6,7 @@ import com.example.soundspherebackend.model.Artista;
 import com.example.soundspherebackend.model.Cancion;
 import com.example.soundspherebackend.model.Usuario;
 import com.example.soundspherebackend.repository.CancionRepository;
+import com.example.soundspherebackend.repository.UsuarioRepository;
 import com.example.soundspherebackend.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class SearchController {
 
     @Autowired
     private CancionRepository cancionRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping
     public ResultadosDTO search(@RequestParam String q) {
@@ -69,8 +73,27 @@ public class SearchController {
                     return dto;
                 })
                 .collect(Collectors.toList());
+        List<ListaDTO> listas = searchService.searchPlaylists(q).stream()
+                .map(lista -> {
+                    ListaDTO dto = new ListaDTO();
+                    dto.setId(lista.getId());
+                    dto.setTitulo(lista.getTitulo());
+                    dto.setUrlImagen(lista.getUrlImagen());
 
-        return new ResultadosDTO(songs, artists, albums, profiles);
+                    // Manejar el Optional<Usuario>
+                    usuarioRepository.findById(lista.getUsuario().getId()).ifPresent(usuario -> {
+                        UsuarioDTO usuarioDTO = new UsuarioDTO();
+                        usuarioDTO.setId(usuario.getId());
+                        usuarioDTO.setNombre(usuario.getNombre());
+                        usuarioDTO.setApellidos(usuario.getApellidos());
+                        usuarioDTO.setUrlImagen(usuario.getUrlImagen());
+                        dto.setUsuario(usuarioDTO);
+                    });
+
+                    return dto;
+                })
+                .collect(Collectors.toList());
+        return new ResultadosDTO(songs, artists, albums, listas, profiles);
     }
 
     private List<ArtistaDTO> getArtistBySong(Integer idCancion) {

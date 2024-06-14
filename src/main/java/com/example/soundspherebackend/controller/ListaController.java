@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/playlist")
@@ -54,6 +56,12 @@ public class ListaController {
     public ResponseEntity<List<CancionDTO>> getSongsByPlaylist(@PathVariable Integer listaId) {
         List<CancionDTO> canciones = listaService.getSongsByPlaylistId(listaId);
         return ResponseEntity.ok(canciones);
+    }
+
+    @GetMapping("/following/{userId}")
+    public ResponseEntity<List<ListaDTO>> getPlaylistsOfFollowedUsers(@PathVariable Integer userId) {
+        List<ListaDTO> listas = listaService.getPlaylistsOfFollowedUsers(userId);
+        return ResponseEntity.ok(listas);
     }
 
     @PostMapping("/create")
@@ -148,13 +156,18 @@ public class ListaController {
         }
     }
 
+    @Transactional
     @DeleteMapping("/remove-song/{listaId}/{cancionId}")
-    public ResponseEntity<String> removeSongFromPlaylist(@PathVariable Integer listaId, @PathVariable Integer cancionId) {
+    public ResponseEntity<Map<String, String>> removeSongFromPlaylist(@PathVariable Integer listaId, @PathVariable Integer cancionId) {
         try {
             listaCancionRepository.deleteByListaIdAndCancionId(listaId, cancionId);
-            return ResponseEntity.ok("Canción eliminada de la lista correctamente.");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Canción eliminada de la lista correctamente.");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la canción de la lista.");
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "Error al eliminar la canción de la lista.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }

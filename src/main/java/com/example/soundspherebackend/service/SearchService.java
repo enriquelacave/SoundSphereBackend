@@ -1,13 +1,7 @@
 package com.example.soundspherebackend.service;
 
-import com.example.soundspherebackend.model.Album;
-import com.example.soundspherebackend.model.Artista;
-import com.example.soundspherebackend.model.Cancion;
-import com.example.soundspherebackend.model.Usuario;
-import com.example.soundspherebackend.repository.AlbumRepository;
-import com.example.soundspherebackend.repository.ArtistaRepository;
-import com.example.soundspherebackend.repository.CancionRepository;
-import com.example.soundspherebackend.repository.UsuarioRepository;
+import com.example.soundspherebackend.model.*;
+import com.example.soundspherebackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +13,17 @@ public class SearchService {
     private final ArtistaRepository artistaRepository;
     private final AlbumRepository albumRepository;
     private final UsuarioRepository usuarioRepository;
+    private final ListaRepository listaRepository;
 
     @Autowired
     public SearchService(CancionRepository cancionRepository, ArtistaRepository artistaRepository,
-                         AlbumRepository albumRepository, UsuarioRepository usuarioRepository) {
+                         AlbumRepository albumRepository, UsuarioRepository usuarioRepository,
+                         ListaRepository listaRepository) {
         this.cancionRepository = cancionRepository;
         this.artistaRepository = artistaRepository;
         this.albumRepository = albumRepository;
         this.usuarioRepository = usuarioRepository;
+        this.listaRepository = listaRepository;
     }
 
     public List<Cancion> searchSongs(String query) {
@@ -43,5 +40,9 @@ public class SearchService {
 
     public List<Usuario> searchProfiles(String query) {
         return usuarioRepository.findByNombreContainingIgnoreCase(query);
+    }
+
+    public List<Lista> searchPlaylists(String query) {
+        return listaRepository.findByTituloContainingIgnoreCase(query);
     }
 }

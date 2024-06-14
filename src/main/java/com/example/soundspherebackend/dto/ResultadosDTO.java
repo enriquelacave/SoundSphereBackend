@@ -17,5 +17,6 @@ public class ResultadosDTO {
     private List<CancionDTO> canciones;
     private List<ArtistaDTO> artistas;
     private List<AlbumDTO> albums;
+    private List<ListaDTO> listas;
     private List<UsuarioDTO> usuarios;
 }

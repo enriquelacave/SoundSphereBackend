@@ -3,6 +3,7 @@ package com.example.soundspherebackend.model;
 import com.example.soundspherebackend.model.Enum.Sexo;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Cascade;
 
 import java.util.Date;
@@ -35,6 +36,7 @@ public class Usuario {
 
     @OneToOne
     @JoinColumn(name = "id_login")
+    @EqualsAndHashCode.Exclude
     private Login login;
 
     @ManyToMany

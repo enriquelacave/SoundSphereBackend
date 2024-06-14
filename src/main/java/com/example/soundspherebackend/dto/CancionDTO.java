@@ -16,4 +16,5 @@ public class CancionDTO {
     private List<Integer> idGeneros; // Lista de IDs de los géneros asociados a la canción
     private String urlImagenAlbum;
     private List<Integer> idArtistas;
+    private Integer reproducciones;
 }

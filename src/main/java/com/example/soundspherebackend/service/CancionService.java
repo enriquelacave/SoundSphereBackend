@@ -7,7 +7,9 @@ import com.example.soundspherebackend.model.Album;
 import com.example.soundspherebackend.model.Artista;
 import com.example.soundspherebackend.model.Cancion;
 import com.example.soundspherebackend.repository.AlbumRepository;
+import com.example.soundspherebackend.repository.ArtistaRepository;
 import com.example.soundspherebackend.repository.CancionRepository;
+import com.example.soundspherebackend.repository.ReproduccionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,12 @@ public class CancionService {
 
     @Autowired
     private AlbumRepository albumRepository;
+
+    @Autowired
+    private ArtistaRepository artistaRepository;
+
+    @Autowired
+    private ReproduccionRepository reproduccionRepository;
 
     public List<Cancion> listarAlbumes() {
         return cancionRepository.findAll();
@@ -85,5 +93,31 @@ public class CancionService {
             }
         }
         return artistasDTO;
+    }
+
+    public List<CancionDTO> getSongsByArtist(Integer idArtista) {
+        Optional<Artista> artistaOptional = artistaRepository.findById(idArtista);
+        List<CancionDTO> cancionesDTO = new ArrayList<>();
+
+        if (artistaOptional.isPresent()) {
+            Artista artista = artistaOptional.get();
+            Set<Cancion> canciones = artista.getCanciones();
+            for (Cancion cancion : canciones) {
+                CancionDTO cancionDTO = new CancionDTO();
+                cancionDTO.setId(cancion.getId());
+                cancionDTO.setTitulo(cancion.getTitulo());
+                cancionDTO.setUrlImagenAlbum(cancion.getAlbum().getUrlImagen());
+                cancionDTO.setDuracion(cancion.getDuracion());
+                cancionDTO.setReproducciones(getReproduccionesTotales(cancion.getId()));
+                cancionDTO.setArtistas(getArtistBySong(cancion.getId()));
+
+                cancionesDTO.add(cancionDTO);
+            }
+        }
+        return cancionesDTO;
+    }
+
+    public Integer getReproduccionesTotales(Integer cancionId) {
+        return reproduccionRepository.countByCancionId(cancionId);
     }
 }

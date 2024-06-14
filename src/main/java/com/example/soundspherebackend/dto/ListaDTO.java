@@ -8,4 +8,5 @@ public class ListaDTO {
     private String titulo;
     private Integer idUsuario;
     private String urlImagen;
+    private UsuarioDTO usuario;
 }

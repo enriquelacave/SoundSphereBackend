@@ -28,5 +28,10 @@ public class CancionController {
         return cancionService.getSongsByIdAlbum(albumId);
     }
 
+    @GetMapping("/artista/{artistaId}")
+    public List<CancionDTO> getSongsByIdArtist(@PathVariable Integer artistaId) {
+        return cancionService.getSongsByArtist(artistaId);
+    }
+
 
 }

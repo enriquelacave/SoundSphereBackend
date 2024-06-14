@@ -1,6 +1,7 @@
 package com.example.soundspherebackend.repository;
 
 import com.example.soundspherebackend.model.Lista;
+import com.example.soundspherebackend.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,8 @@ public interface ListaRepository extends JpaRepository<Lista, Integer> {
 
     @Query("SELECT COUNT(lc) > 0 FROM ListaCancion lc WHERE lc.lista.id = :listaId AND lc.cancion.id = :cancionId")
     boolean existsByListaIdAndCancionId(@Param("listaId") Integer listaId, @Param("cancionId") Integer cancionId);
+
+    List<Lista> findByTituloContainingIgnoreCase(String query);
+
+    List<Lista> findByUsuarioIdIn(List<Integer> userIds);
 }
