@@ -42,6 +42,7 @@ public class SearchController {
                     dto.setDuracion(cancion.getDuracion());
                     dto.setUrlImagenAlbum(cancion.getAlbum().getUrlImagen());
                     dto.setArtistas(getArtistBySong(cancion.getId()));
+                    dto.setIdAlbum(cancion.getAlbum().getId());
                     return dto;
                 })
                 .collect(Collectors.toList());

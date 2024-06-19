@@ -110,6 +110,7 @@ public class CancionService {
                 cancionDTO.setDuracion(cancion.getDuracion());
                 cancionDTO.setReproducciones(getReproduccionesTotales(cancion.getId()));
                 cancionDTO.setArtistas(getArtistBySong(cancion.getId()));
+                cancionDTO.setIdAlbum(cancion.getAlbum().getId());
 
                 cancionesDTO.add(cancionDTO);
             }

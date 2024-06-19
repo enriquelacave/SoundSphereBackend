@@ -1,5 +1,6 @@
 package com.example.soundspherebackend.controller;
 
+import com.example.soundspherebackend.dto.CancionDTO;
 import com.example.soundspherebackend.model.Login;
 import com.example.soundspherebackend.model.Reproduccion;
 import com.example.soundspherebackend.model.Usuario;
@@ -8,10 +9,12 @@ import com.example.soundspherebackend.repository.LoginRepository;
 import com.example.soundspherebackend.repository.ReproduccionRepository;
 import com.example.soundspherebackend.repository.UsuarioRepository;
 import com.example.soundspherebackend.repository.CancionRepository;
+import com.example.soundspherebackend.service.ReproduccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,6 +35,14 @@ public class ReproduccionController {
         this.usuarioRepository = usuarioRepository;
         this.cancionRepository = cancionRepository;
         this.loginRepository = loginRepository;
+    }
+
+    @Autowired
+    private ReproduccionService reproduccionService;
+
+    @GetMapping("/last/{idUsuario}")
+    public List<CancionDTO> getLast10UniqueSongsByUser(@PathVariable Integer idUsuario) {
+        return reproduccionService.getLast10UniqueSongsByUser(idUsuario);
     }
 
     @PostMapping("/{songId}/{idLogin}")

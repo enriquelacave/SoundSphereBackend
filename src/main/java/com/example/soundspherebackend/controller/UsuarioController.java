@@ -4,6 +4,7 @@ import com.example.soundspherebackend.dto.AlbumDTO;
 import com.example.soundspherebackend.dto.CreateAlbumRequestDTO;
 import com.example.soundspherebackend.dto.ListaDTO;
 import com.example.soundspherebackend.dto.UsuarioDTO;
+import com.example.soundspherebackend.model.Lista;
 import com.example.soundspherebackend.model.Login;
 import com.example.soundspherebackend.model.Usuario;
 import com.example.soundspherebackend.repository.LoginRepository;
@@ -85,6 +86,26 @@ public class UsuarioController {
         responseDTO.setUrlImagen(usuarioNuevo.getUrlImagen());
 
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @PutMapping("/edit/{userId}")
+    public ResponseEntity<UsuarioDTO> editUser(@PathVariable Integer userId, @RequestBody UsuarioDTO usuarioDTO) {
+        Usuario usuario = usuarioRepository.findById(userId).orElse(null);
+
+        assert usuario != null;
+            usuario.setNombre(usuarioDTO.getNombre());
+            usuario.setApellidos(usuarioDTO.getApellidos());
+            usuario.setUrlImagen(usuarioDTO.getUrlImagen());
+            usuarioRepository.save(usuario);
+
+            // Crear una instancia de ListaDTO con los datos actualizados de la lista
+            UsuarioDTO updatedUsuarioDTO = new UsuarioDTO();
+            updatedUsuarioDTO.setId(usuario.getId());
+            updatedUsuarioDTO.setNombre(usuario.getNombre());
+            updatedUsuarioDTO.setApellidos(usuario.getApellidos());
+            updatedUsuarioDTO.setUrlImagen(usuario.getUrlImagen());
+
+            return ResponseEntity.ok(updatedUsuarioDTO);
     }
 
 }

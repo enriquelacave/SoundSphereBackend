@@ -59,6 +59,7 @@ public class ArtistaController {
                 albumDTO.setId(album.getId());
                 albumDTO.setTitulo(album.getTitulo());
                 albumDTO.setUrlImagen(album.getUrlImagen());
+                albumDTO.setFechaPublicacion(album.getFechaPublicacion());
                 albumesDTO.add(albumDTO);
             }
         }
