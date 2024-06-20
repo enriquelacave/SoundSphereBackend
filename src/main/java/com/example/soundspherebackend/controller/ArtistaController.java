@@ -3,9 +3,11 @@ package com.example.soundspherebackend.controller;
 import com.example.soundspherebackend.dto.AlbumDTO;
 import com.example.soundspherebackend.dto.ArtistaDTO;
 import com.example.soundspherebackend.dto.CancionDTO;
+import com.example.soundspherebackend.dto.EventoDTO;
 import com.example.soundspherebackend.model.Album;
 import com.example.soundspherebackend.model.Artista;
 import com.example.soundspherebackend.model.Cancion;
+import com.example.soundspherebackend.model.Evento;
 import com.example.soundspherebackend.repository.ArtistaRepository;
 import com.example.soundspherebackend.service.ArtistaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,4 +67,5 @@ public class ArtistaController {
         }
         return albumesDTO;
     }
+
 }

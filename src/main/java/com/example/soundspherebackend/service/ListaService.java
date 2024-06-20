@@ -65,6 +65,7 @@ public class ListaService {
         cancionDTO.setTitulo(cancion.getTitulo());
         cancionDTO.setDuracion(cancion.getDuracion());
         cancionDTO.setUrlImagenAlbum(cancion.getAlbum().getUrlImagen());
+        cancionDTO.setIdAlbum(cancion.getAlbum().getId());
 
         // Obtener los artistas usando el servicio de canción
         List<ArtistaDTO> artistas = cancionService.getArtistBySong(cancion.getId());

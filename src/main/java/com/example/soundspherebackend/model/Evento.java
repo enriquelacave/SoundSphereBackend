@@ -22,6 +22,6 @@ public class Evento {
     @Column(nullable = false)
     private Date fecha;
 
-    @ManyToMany(mappedBy = "eventos")
-    private Set<Artista> artistas;
+    @OneToMany(mappedBy = "evento")
+    private Set<EventoArtista> eventoArtistas;
 }

@@ -29,13 +29,8 @@ public class Artista {
     @ManyToMany(mappedBy = "artistas")
     private Set<Cancion> canciones;
 
-    @ManyToMany
-    @JoinTable(
-            name = "evento_artista",
-            joinColumns = @JoinColumn(name = "id_evento"),
-            inverseJoinColumns = @JoinColumn(name = "id_artista")
-    )
-    private Set<Evento> eventos;
+    @OneToMany(mappedBy = "artista")
+    private Set<EventoArtista> eventoArtistas;
 
     @ManyToMany(mappedBy = "artistas")
     private Set<Genero> generos;
